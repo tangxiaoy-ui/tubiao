@@ -1,0 +1,6 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": ["Tubiao Bot"],
+  "tags": ["left", "packup", "collapse", "sidebar", "arrow"],
+  "categories": ["layout", "arrows"]
+}

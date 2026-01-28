@@ -1,0 +1,14 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "Tubiao Bot"
+  ],
+  "tags": [
+    "tick",
+    "unselected",
+    "unchecked"
+  ],
+  "categories": [
+    "ui"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": ["Tubiao Bot"],
+  "tags": ["delete", "remove", "trash", "bin", "x"],
+  "categories": ["actions", "ui"]
+}

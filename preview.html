@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tubiao Icons</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #0f172a;
+            --border-color: #e2e8f0;
+            --hover-bg: #f8fafc;
+            --primary-color: #f56565;
+            --sidebar-width: 300px;
+            --icon-default-color: #666666;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            background: #fff;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo svg { color: var(--primary-color); }
+
+        /* Customizer */
+        .customizer {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .customizer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .customizer-title { font-weight: 600; font-size: 14px; }
+        .reset-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #64748b;
+            padding: 4px;
+            border-radius: 4px;
+        }
+        .reset-btn:hover { background: #e2e8f0; color: var(--text-color); }
+
+        .control-group { margin-bottom: 16px; }
+        .control-group:last-child { margin-bottom: 0; }
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        .control-value { font-family: monospace; }
+        
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--primary-color);
+        }
+        input[type="color"] {
+            width: 100%;
+            height: 36px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 2px;
+            cursor: pointer;
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+        .toggle-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 36px;
+            height: 20px;
+        }
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        input:checked + .slider:before {
+            transform: translateX(16px);
+        }
+
+        /* Categories */
+        .categories-section {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .categories-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+        .category-list { list-style: none; }
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+        .category-item:hover { background: var(--hover-bg); color: var(--text-color); }
+        .category-item.active { background: #fee2e2; color: var(--primary-color); }
+        .category-item .count { font-size: 12px; opacity: 0.7; }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+        }
+        .search-wrapper { margin-bottom: 32px; position: relative; }
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 48px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(245, 101, 101, 0.1);
+        }
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        /* Grid */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 16px;
+        }
+        .icon-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .icon-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+        .icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px; 
+            height: 48px;
+            color: var(--icon-default-color);
+        }
+        .icon-wrapper svg {
+            transition: all 0.2s;
+        }
+        .icon-name {
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            word-break: break-all;
+        }
+        
+        .icon-desc {
+            display: none;
+            font-size: 10px;
+            color: #94a3b8;
+            text-align: center;
+            width: 100%;
+            border-top: 1px solid var(--border-color);
+            padding-top: 8px;
+        }
+        .desc-item {
+            margin-bottom: 4px;
+        }
+        .desc-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Show Description State */
+        body.show-description .icon-desc {
+            display: block;
+        }
+        body.show-description .icon-grid {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: #0f172a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 64px;
+            color: #64748b;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            Tubiao
+        </div>
+        
+        <div class="customizer">
+            <div class="customizer-header">
+                <span class="customizer-title">自定义</span>
+                <button class="reset-btn" id="reset-btn" title="恢复默认">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/><path d="M3 3v9h9"/></svg>
+                </button>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    <span>颜色</span>
+                    <span id="color-value" class="control-value">#666666</span>
+                </div>
+                <input type="color" id="color-input" value="#666666">
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <span>描边粗细</span>
+                    <span id="stroke-value" class="control-value">2px</span>
+                </div>
+                <input type="range" id="stroke-input" min="0.5" max="3" step="0.25" value="2">
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <span>大小</span>
+                    <span id="size-value" class="control-value">24px</span>
+                </div>
+                <input type="range" id="size-input" min="16" max="48" step="4" value="24">
+            </div>
+            
+            <div class="toggle-group">
+                <span class="toggle-label">显示描述</span>
+                <label class="switch">
+                    <input type="checkbox" id="desc-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="categories-section">
+            <div class="categories-title">分类</div>
+            <ul class="category-list" id="category-list">
+                <li class="category-item active" data-category="all">
+                    <span>所有图标</span>
+                    <span class="count">85</span>
+                </li>
+                <li class="category-item" data-category="actions">
+            <span>actions</span>
+            <span class="count">37</span>
+         </li><li class="category-item" data-category="arrows">
+            <span>arrows</span>
+            <span class="count">24</span>
+         </li><li class="category-item" data-category="communication">
+            <span>communication</span>
+            <span class="count">3</span>
+         </li><li class="category-item" data-category="devices">
+            <span>devices</span>
+            <span class="count">1</span>
+         </li><li class="category-item" data-category="editor">
+            <span>editor</span>
+            <span class="count">9</span>
+         </li><li class="category-item" data-category="files">
+            <span>files</span>
+            <span class="count">5</span>
+         </li><li class="category-item" data-category="layout">
+            <span>layout</span>
+            <span class="count">17</span>
+         </li><li class="category-item" data-category="media">
+            <span>media</span>
+            <span class="count">4</span>
+         </li><li class="category-item" data-category="security">
+            <span>security</span>
+            <span class="count">9</span>
+         </li><li class="category-item" data-category="shapes">
+            <span>shapes</span>
+            <span class="count">3</span>
+         </li><li class="category-item" data-category="ui">
+            <span>ui</span>
+            <span class="count">43</span>
+         </li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: auto; font-size: 12px; color: #94a3b8;">
+            <p>v0.0.1 • 85 个图标</p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="search-wrapper">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" class="search-input" id="search-input" placeholder="搜索 85 个图标...">
+        </div>
+
+        <div class="icon-grid" id="icon-grid">
+            
+        <div class="icon-card" data-name="annotate-cc" data-categories="ui">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1.67944 7.99649L5.02302 2.78126C5.36472 2.24828 6.0791 2.08986 6.61863 2.42741C6.76304 2.51776 6.88538 2.63861 6.97683 2.78126L10.3204 7.99649C10.6621 8.52947 10.5017 9.23518 9.96221 9.57274C9.77713 9.68853 9.56257 9.75 9.3435 9.75H2.65635C2.01772 9.75 1.5 9.23857 1.5 8.60769C1.5 8.39128 1.56223 8.17932 1.67944 7.99649ZM5.99993 3.39246L2.65635 8.60769H9.3435L5.99993 3.39246Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">annotate-cc</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui</div>
+                <div class="desc-item"><strong>Tags:</strong> annotate, c, cc</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="annotate-sign" data-categories="ui">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 6C1.5 3.51472 3.51472 1.5 6 1.5C8.48528 1.5 10.5 3.51472 10.5 6C10.5 8.48528 8.48528 10.5 6 10.5C3.51472 10.5 1.5 8.48528 1.5 6ZM9.5 6C9.5 4.067 7.933 2.5 6 2.5C4.067 2.5 2.5 4.067 2.5 6C2.5 7.933 4.067 9.5 6 9.5C7.933 9.5 9.5 7.933 9.5 6Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">annotate-sign</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui</div>
+                <div class="desc-item"><strong>Tags:</strong> annotate, sign</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="arrow-double-left" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.87688 2.3291L2.95305 5.6709C2.80872 5.83585 2.79012 6.07214 2.89836 6.25488L2.95305 6.3291L5.87688 9.6709L5.12395 10.3291L2.20012 6.9873C1.73848 6.45952 1.70724 5.68905 2.10735 5.12891L2.20012 5.0127L5.12395 1.6709L5.87688 2.3291ZM9.87688 2.3291L6.95305 5.6709C6.80872 5.83585 6.79012 6.07214 6.89836 6.25488L6.95305 6.3291L9.87688 9.6709L9.12395 10.3291L6.20012 6.9873C5.73848 6.45952 5.70724 5.68905 6.10735 5.12891L6.20012 5.0127L9.12395 1.6709L9.87688 2.3291Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">arrow-double-left</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> arrow, double, left, 箭头左, double-arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="arrow-double-right" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.7998 5.0127C6.26155 5.54051 6.29279 6.31091 5.89258 6.87109L5.7998 6.9873L2.87598 10.3291L2.12402 9.6709L5.04785 6.3291C5.19198 6.16416 5.20976 5.92777 5.10156 5.74512L5.04785 5.6709L2.12402 2.3291L2.87598 1.6709L5.7998 5.0127ZM9.7998 5.0127C10.2616 5.54051 10.2928 6.31091 9.89258 6.87109L9.7998 6.9873L6.87598 10.3291L6.12402 9.6709L9.04785 6.3291C9.19198 6.16416 9.20976 5.92777 9.10156 5.74512L9.04785 5.6709L6.12402 2.3291L6.87598 1.6709L9.7998 5.0127Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">arrow-double-right</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> arrow, double, right, arrow-right, double-arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="arrow-down" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.3605 4.34367L7.0676 7.63657C6.51842 8.18574 5.64936 8.22006 5.0602 7.73954L4.94628 7.63657L1.65338 4.34367L2.36049 3.63657L5.65338 6.92946C5.82695 7.10303 6.09637 7.12231 6.29124 6.98731L6.36049 6.92946L9.65338 3.63657L10.3605 4.34367Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">arrow-down</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> arrow, down, arrow-down</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="arrow-left" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.37868 10.3536L4.08579 7.06066C3.53661 6.51149 3.50229 5.64242 3.98282 5.05326L4.08579 4.93934L7.37868 1.64645L8.08579 2.35355L4.79289 5.64645C4.61933 5.82001 4.60004 6.08944 4.73504 6.28431L4.79289 6.35355L8.08579 9.64645L7.37868 10.3536Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">arrow-left</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> arrow, left, 箭头左</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="arrow-right" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.35355 1.64645L7.64645 4.93934C8.19562 5.48851 8.22994 6.35758 7.74942 6.94674L7.64645 7.06066L4.35355 10.3536L3.64645 9.64645L6.93934 6.35355C7.11291 6.17999 7.13219 5.91056 6.9972 5.71569L6.93934 5.64645L3.64645 2.35355L4.35355 1.64645Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">arrow-right</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> arrow, right, arrow-right</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="arrow-up" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.63768 7.64197L4.93057 4.34908C5.47974 3.7999 6.34881 3.76558 6.93797 4.24611L7.05189 4.34908L10.3448 7.64197L9.63768 8.34908L6.34478 5.05618C6.17122 4.88262 5.90179 4.86333 5.70692 4.99833L5.63768 5.05618L2.34478 8.34908L1.63768 7.64197Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">arrow-up</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> arrow, up, arrow-up</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="batch-add" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.5 3C8.32843 3 9 3.67157 9 4.5V10.5C9 11.3284 8.32843 12 7.5 12H1.5C0.671573 12 0 11.3284 0 10.5V4.5C0 3.67157 0.671573 3 1.5 3H7.5ZM1.5 4C1.22386 4 1 4.22386 1 4.5V10.5C1 10.7761 1.22386 11 1.5 11H7.5C7.77614 11 8 10.7761 8 10.5V4.5C8 4.22386 7.77614 4 7.5 4H1.5ZM5 7H7V8H5V10H4V8H2V7H4V5H5V7ZM10.5 0C11.2797 0 11.9204 0.594849 11.9932 1.35547L12 1.5V7.5C12 8.27967 11.4052 8.92045 10.6445 8.99316L10.5 9H10V8H10.5C10.7455 8 10.9499 7.82309 10.9922 7.58984L11 7.5V1.5C11 1.25454 10.8231 1.05015 10.5898 1.00781L10.5 1H4.5C4.25454 1 4.05015 1.17691 4.00781 1.41016L4 1.5V2H3V1.5C3 0.720327 3.59485 0.0795522 4.35547 0.00683594L4.5 0H10.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">batch-add</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> batch, add, plus, multiple, create</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="batch-delete" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.5 3C8.32843 3 9 3.67157 9 4.5V10.5C9 11.3284 8.32843 12 7.5 12H1.5C0.671573 12 0 11.3284 0 10.5V4.5C0 3.67157 0.671573 3 1.5 3H7.5ZM1.5 4C1.22386 4 1 4.22386 1 4.5V10.5C1 10.7761 1.22386 11 1.5 11H7.5C7.77614 11 8 10.7761 8 10.5V4.5C8 4.22386 7.77614 4 7.5 4H1.5ZM6.85352 5.85352L5.20703 7.5L6.85352 9.14648L6.14648 9.85352L4.5 8.20703L2.85352 9.85352L2.14648 9.14648L3.79297 7.5L2.14648 5.85352L2.85352 5.14648L4.5 6.79297L6.14648 5.14648L6.85352 5.85352ZM10.5 0C11.2797 0 11.9204 0.594849 11.9932 1.35547L12 1.5V7.5C12 8.27967 11.4052 8.92045 10.6445 8.99316L10.5 9H10V8H10.5C10.7455 8 10.9499 7.82309 10.9922 7.58984L11 7.5V1.5C11 1.25454 10.8231 1.05015 10.5898 1.00781L10.5 1H4.5C4.25454 1 4.05015 1.17691 4.00781 1.41016L4 1.5V2H3V1.5C3 0.720327 3.59485 0.0795522 4.35547 0.00683594L4.5 0H10.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">batch-delete</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> batch, delete, remove, multiple, trash</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="btn-add" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6ZM11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z" fill="currentColor"/>
+<path d="M6.5 5.49902L8.82812 5.5V6.5L6.5 6.49902V8.82812H5.5V6.49902L3.17188 6.5V5.5L5.5 5.49902V3.17188H6.5V5.49902Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">btn-add</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> button, add, plus, create, new</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="btn-change" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 0H8.5C10.433 0 12 1.567 12 3.5V8.5C12 10.433 10.433 12 8.5 12H3.5C1.567 12 0 10.433 0 8.5V3.5C0 1.567 1.567 0 3.5 0ZM8.5 1H3.5C2.11929 1 1 2.11929 1 3.5V8.5C1 9.88071 2.11929 11 3.5 11H8.5C9.88071 11 11 9.88071 11 8.5V3.5C11 2.11929 9.88071 1 8.5 1Z" fill="currentColor"/>
+<circle cx="6" cy="6" r="2" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">btn-change</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> button, change, swap, replace, switch</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="btn-delete" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6ZM11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z" fill="currentColor"/>
+<path d="M8.82842 5.5V6.5H3.17157V5.5H8.82842Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">btn-delete</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> button, delete, remove, trash, bin</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="btn-fold" data-categories="ui arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 0H8.5C10.433 0 12 1.567 12 3.5V8.5C12 10.433 10.433 12 8.5 12H3.5C1.567 12 0 10.433 0 8.5V3.5C0 1.567 1.567 0 3.5 0ZM8.5 1H3.5C2.11929 1 1 2.11929 1 3.5V8.5C1 9.88071 2.11929 11 3.5 11H8.5C9.88071 11 11 9.88071 11 8.5V3.5C11 2.11929 9.88071 1 8.5 1Z" fill="currentColor"/>
+<path d="M8.82842 5.5V6.5H3.17157V5.5H8.82842Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">btn-fold</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> button, fold, collapse, up, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="btn-more" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6ZM11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3.75 5.25V6.75H2.25V5.25H3.75ZM6.75 5.25V6.75H5.25V5.25H6.75ZM9.75 6.75V5.25H8.25V6.75H9.75Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">btn-more</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> button, more, options, dots</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="btn-play" data-categories="media actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6ZM11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M4 3.46713C4 3.31906 4.04383 3.1743 4.12596 3.0511L4.19421 2.9634C4.43939 2.69219 4.85271 2.63421 5.16603 2.84309L8.96533 5.37596C9.04772 5.43089 9.11842 5.50158 9.17334 5.58397C9.40311 5.92862 9.30998 6.39427 8.96533 6.62404L5.16603 9.15691C5.04282 9.23904 4.89807 9.28287 4.75 9.28287C4.33579 9.28287 4 8.94708 4 8.53287V3.46713ZM8.097 6L5 3.934V8.065L8.097 6Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">btn-play</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> media, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> button, play, start, media</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="btn-unfold" data-categories="ui arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 0H8.5C10.433 0 12 1.567 12 3.5V8.5C12 10.433 10.433 12 8.5 12H3.5C1.567 12 0 10.433 0 8.5V3.5C0 1.567 1.567 0 3.5 0ZM8.5 1H3.5C2.11929 1 1 2.11929 1 3.5V8.5C1 9.88071 2.11929 11 3.5 11H8.5C9.88071 11 11 9.88071 11 8.5V3.5C11 2.11929 9.88071 1 8.5 1Z" fill="currentColor"/>
+<path d="M6.5 3.17157V5.499L8.82842 5.5V6.5L6.5 6.499V8.82843H5.5V6.499L3.17157 6.5V5.5L5.5 5.499V3.17157H6.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">btn-unfold</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> button, unfold, expand, down, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="change" data-categories="actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.30178 11C1.13602 11 0.977045 10.9342 0.859835 10.8169C0.615757 10.5729 0.615757 10.1771 0.859835 9.93306L3.93306 6.85984C4.05027 6.74262 4.20924 6.67678 4.375 6.67678C4.72018 6.67678 5 6.9566 5 7.30178V9.5H4V8.208L2.207 10H8.5C9.2797 10 9.92045 9.40511 9.99313 8.64446L10 8.5H11C11 9.88071 9.88071 11 8.5 11H1.30178Z" fill="currentColor"/>
+<path d="M10.6982 1C10.864 1 11.023 1.06585 11.1402 1.18306C11.3842 1.42714 11.3842 1.82286 11.1402 2.06694L8.06694 5.14016C7.94973 5.25738 7.79076 5.32322 7.625 5.32322C7.27982 5.32322 7 5.0434 7 4.69822V2.5H8V3.792L9.793 2H3.5C2.7203 2 2.07955 2.59489 2.00687 3.35554L2 3.5H1C1 2.11929 2.11929 1 3.5 1H10.6982Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">change</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions</div>
+                <div class="desc-item"><strong>Tags:</strong> change, refresh, swap, replace</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="copy" data-categories="actions files">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.5 3C8.32843 3 9 3.67157 9 4.5V10.5C9 11.3284 8.32843 12 7.5 12H1.5C0.671573 12 0 11.3284 0 10.5V4.5C0 3.67157 0.671573 3 1.5 3H7.5ZM1.5 4C1.22386 4 1 4.22386 1 4.5V10.5C1 10.7761 1.22386 11 1.5 11H7.5C7.77614 11 8 10.7761 8 10.5V4.5C8 4.22386 7.77614 4 7.5 4H1.5ZM10.5 0C11.2797 0 11.9204 0.594849 11.9932 1.35547L12 1.5V7.5C12 8.27967 11.4052 8.92045 10.6445 8.99316L10.5 9H10V8H10.5C10.7455 8 10.9499 7.82309 10.9922 7.58984L11 7.5V1.5C11 1.25454 10.8231 1.05015 10.5898 1.00781L10.5 1H4.5C4.25454 1 4.05015 1.17691 4.00781 1.41016L4 1.5V2H3V1.5C3 0.720327 3.59485 0.0795522 4.35547 0.00683594L4.5 0H10.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">copy</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, files</div>
+                <div class="desc-item"><strong>Tags:</strong> copy, duplicate, clone, files</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="cross" data-categories="ui security actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6ZM11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z" fill="currentColor"/>
+<path d="M7.64645 3.64645L8.35356 4.35355L6.70701 6L8.35356 7.64645L7.64645 8.35355L6.00001 6.707L4.35356 8.35355L3.64645 7.64645L5.29301 6L3.64645 4.35355L4.35356 3.64645L6.00001 5.293L7.64645 3.64645Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">cross</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, security, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> cross, fail, close, error</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="delete" data-categories="actions ui">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.5 0C8.27967 0 8.92045 0.594849 8.99316 1.35547L9 1.5V2H12V3H11V10.5C11 11.2797 10.4052 11.9204 9.64453 11.9932L9.5 12H2.5C1.72033 12 1.07955 11.4052 1.00684 10.6445L1 10.5V3H0V2H3V1.5C3 0.720327 3.59485 0.0795522 4.35547 0.00683594L4.5 0H7.5ZM2 10.5C2 10.7455 2.17691 10.9499 2.41016 10.9922L2.5 11H9.5C9.74546 11 9.94985 10.8231 9.99219 10.5898L10 10.5V3H2V10.5ZM4.5 1C4.25454 1 4.05015 1.17691 4.00781 1.41016L4 1.5V2H8V1.5C8 1.25454 7.82309 1.05015 7.58984 1.00781L7.5 1H4.5Z" fill="currentColor"/>
+<path d="M5 5V9H4V5H5Z" fill="currentColor"/>
+<path d="M8 5V9H7V5H8Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">delete</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, ui</div>
+                <div class="desc-item"><strong>Tags:</strong> delete, remove, trash, bin, x</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="direction-right-up" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 1C10.5128 1 10.9354 1.38645 10.9932 1.88379L11 2V9H10V2.70703L1.35352 11.3535L0.646484 10.6465L9.29297 2H3V1H10Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">direction-right-up</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> direction, right, up, top-right, jump</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="download" data-categories="actions arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2 11H10V10H11V11C11 11.5128 10.6135 11.9354 10.1162 11.9932L10 12H2C1.48716 12 1.0646 11.6135 1.00684 11.1162L1 11V10H2V11ZM8 0C8.55208 0.000238298 9 0.447862 9 1V5H10.1982C10.5117 5.00022 10.7716 5.23121 10.8164 5.53223L10.8232 5.625C10.8232 5.79066 10.7577 5.95019 10.6406 6.06738L6.44238 10.2656C6.19846 10.5093 5.80264 10.5091 5.55859 10.2656L1.36035 6.06738C1.11627 5.82331 1.11627 5.42669 1.36035 5.18262C1.47741 5.06582 1.63639 5.00012 1.80176 5H3V1C3 0.487172 3.38646 0.0646119 3.88379 0.00683594L4 0H8ZM4 5.375C4 5.72003 3.71998 5.99976 3.375 6H2.70703L6 9.29297L9.29199 6H8.625C8.31154 5.99979 8.05163 5.76882 8.00684 5.46777L8 5.375V1H4V5.375Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">download</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> download, save, arrow, down</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="edit" data-categories="actions editor">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.82227 0.470046C8.19642 0.0963139 8.80358 0.0963139 9.17773 0.470046L11.5293 2.82161C11.9034 3.19573 11.9032 3.80279 11.5293 4.17708L3.98828 11.7191C3.80865 11.8987 3.56457 11.9992 3.31055 11.9993H0.958008C0.428902 11.9992 2.8292e-05 11.5705 0 11.0413V8.68977C0.000202003 8.43603 0.10093 8.19155 0.280273 8.01204L7.82227 0.470046ZM1 8.70637V11.0003H3.29199L10.793 3.50032L8.5 1.20735L1 8.70637Z" fill="currentColor"/>
+<path d="M9.85352 5.14648L9.14648 5.85352L6.14648 2.85352L6.85352 2.14648L9.85352 5.14648Z" fill="currentColor"/>
+<path d="M12 11V12H6V11H12Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">edit</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, editor</div>
+                <div class="desc-item"><strong>Tags:</strong> edit, pencil, write, modify</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="erase" data-categories="actions editor">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 11V12H7V11H12Z" fill="currentColor"/>
+<path d="M6.793 0.500018C7.18352 0.109535 7.81655 0.109508 8.20706 0.500018L11.5 3.79299C11.8903 4.18352 11.8904 4.8166 11.5 5.20705L5.20706 11.5C4.81661 11.8904 4.18353 11.8903 3.793 11.5L0.500028 8.20705C0.109516 7.81654 0.109541 7.18351 0.500028 6.79299L6.793 0.500018ZM1.20706 7.50002L4.50003 10.793L5.79202 9.49904L2.50003 6.20705L1.20706 7.50002ZM3.20706 5.50002L6.49905 8.79201L10.792 4.49904L7.50003 1.20705L3.20706 5.50002Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">erase</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, editor</div>
+                <div class="desc-item"><strong>Tags:</strong> erase, clear, rubber, delete</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="exchange-ud" data-categories="arrows actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 9.89689C3.99986 10.311 3.66412 10.6469 3.25 10.6469C3.09087 10.6469 2.93679 10.5956 2.80957 10.5033L2.71973 10.4272L0.646484 8.35392L1.35352 7.64689L3 9.29338V1.00041H4V9.89689ZM8.26953 1.11466C8.55876 0.873638 8.97634 0.886865 9.24902 1.13029L9.32617 1.21037L11.3838 3.68009L10.6162 4.32072L9 2.38224V10.5004H8V1.69084C8 1.46836 8.0987 1.25716 8.26953 1.11466Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">exchange-ud</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> exchange, swap, up, down, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="exchange-udinverted-order" data-categories="arrows actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.25" d="M3.99998 1V9.89645C3.99998 10.3107 3.66419 10.6464 3.24998 10.6464C3.09085 10.6464 2.93693 10.5959 2.80972 10.5036L2.71965 10.4268L0.646423 8.35355L1.35353 7.64645L2.99998 9.293V1H3.99998Z" fill="currentColor"/>
+<path d="M8.26986 1.11435C8.55914 0.873281 8.97629 0.886897 9.24897 1.13044L9.32617 1.21038L11.3841 3.67991L10.6159 4.32009L9 2.382V10.5H8V1.69051C8 1.46793 8.09887 1.25684 8.26986 1.11435Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">exchange-udinverted-order</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> exchange, swap, order, inverted</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="exchange-udorder" data-categories="arrows actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.99998 1V9.89645C3.99998 10.3107 3.66419 10.6464 3.24998 10.6464C3.09085 10.6464 2.93693 10.5959 2.80972 10.5036L2.71965 10.4268L0.646423 8.35355L1.35353 7.64645L2.99998 9.293V1H3.99998Z" fill="currentColor"/>
+<path opacity="0.25" d="M8.26986 1.11435C8.55914 0.873281 8.97629 0.886897 9.24897 1.13044L9.32617 1.21038L11.3841 3.67991L10.6159 4.32009L9 2.382V10.5H8V1.69051C8 1.46793 8.09887 1.25684 8.26986 1.11435Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">exchange-udorder</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> exchange, swap, order, sort</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="exclamatory-triangle" data-categories="ui security">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.25542 0.712836C5.97468 0.301866 6.89128 0.552199 7.3023 1.27143L11.5796 8.7558C11.7091 8.98237 11.7769 9.23902 11.7769 9.49995C11.7769 10.3283 11.1053 10.9999 10.2769 10.9999H1.7232C1.46224 10.9999 1.20565 10.9321 0.979056 10.8027C0.259862 10.3917 0.00962983 9.47504 0.420462 8.7558L4.69781 1.27143C4.83066 1.03897 5.02297 0.845705 5.25542 0.712836ZM6.43413 1.76752C6.29713 1.52781 5.99126 1.44404 5.75152 1.581C5.6741 1.62528 5.61023 1.69009 5.56597 1.76752L1.28863 9.2519C1.1518 9.49162 1.23547 9.79755 1.47515 9.93452C1.55064 9.97761 1.63627 9.99994 1.7232 9.99995H10.2769C10.553 9.9999 10.7769 9.77605 10.7769 9.49995C10.7769 9.41295 10.7537 9.32743 10.7105 9.2519L6.43413 1.76752ZM6.49956 8.99995H5.49956V7.99995H6.49956V8.99995ZM6.49956 6.99995H5.49956V3.49995H6.49956V6.99995Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">exclamatory-triangle</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, security</div>
+                <div class="desc-item"><strong>Tags:</strong> exclamatory, triangle, exclamation, warning, alert, risk</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="exclamatory" data-categories="ui security">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0ZM6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1ZM6.5 9.5H5.5V8H6.5V9.5ZM6.5 7H5.5V3H6.5V7Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">exclamatory</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, security</div>
+                <div class="desc-item"><strong>Tags:</strong> exclamatory, exclamation, warning, alert</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="extport" data-categories="actions files">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.5 0C10.2797 0 10.9204 0.594849 10.9932 1.35547L11 1.5V3H10V1.5C10 1.25454 9.82309 1.05015 9.58984 1.00781L9.5 1H1.5C1.25454 1 1.05015 1.17691 1.00781 1.41016L1 1.5V10.5C1 10.7455 1.17691 10.9499 1.41016 10.9922L1.5 11H9.5C9.74546 11 9.94985 10.8231 9.99219 10.5898L10 10.5V9H11V10.5C11 11.2797 10.4052 11.9204 9.64453 11.9932L9.5 12H1.5C0.720327 12 0.0795524 11.4052 0.00683594 10.6445L0 10.5V1.5C0 0.720327 0.594849 0.0795522 1.35547 0.00683594L1.5 0H9.5ZM11.6768 5.46973C11.943 5.73599 11.9669 6.15268 11.749 6.44629L11.6768 6.53027L9.35352 8.85352L8.64648 8.14648L10.293 6.5H5V5.5H10.293L8.64648 3.85352L9.35352 3.14648L11.6768 5.46973Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">extport</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, files</div>
+                <div class="desc-item"><strong>Tags:</strong> export, output, arrow, share</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="full-screen-exit" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 7C4.51284 7 4.9354 7.38645 4.99316 7.88379L5 8V11H4V8.70703L0.853516 11.8535L0.146484 11.1465L3.29297 8H1V7H4ZM11 8H8.70703L11.8535 11.1465L11.1465 11.8535L8 8.70703V11H7V8C7 7.48716 7.38645 7.0646 7.88379 7.00684L8 7H11V8ZM4 3.29297V1H5V4C5 4.51284 4.61355 4.9354 4.11621 4.99316L4 5H1V4H3.29297L0.146484 0.853516L0.853516 0.146484L4 3.29297ZM11.8535 0.853516L8.70703 4H11V5H8C7.48716 5 7.0646 4.61355 7.00684 4.11621L7 4V1H8V3.29297L11.1465 0.146484L11.8535 0.853516Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">full-screen-exit</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> fullscreen, exit, minimize, shrink</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="full-screen" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.35352 7.35352L2.70703 10H5V11H2C1.48716 11 1.0646 10.6135 1.00684 10.1162L1 10V7H2V9.29297L4.64648 6.64648L5.35352 7.35352ZM10 9.29297V7H11V10C11 10.5128 10.6135 10.9354 10.1162 10.9932L10 11H7V10H9.29297L6.64648 7.35352L7.35352 6.64648L10 9.29297ZM5 2H2.70703L5.35352 4.64648L4.64648 5.35352L2 2.70703V5H1V2C1 1.48716 1.38645 1.0646 1.88379 1.00684L2 1H5V2ZM10 1C10.5128 1 10.9354 1.38645 10.9932 1.88379L11 2V5H10V2.70703L7.35352 5.35352L6.64648 4.64648L9.29297 2H7V1H10Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">full-screen</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> fullscreen, expand, maximize, view</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="funnel" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1 0H11C11.5523 0 12 0.447715 12 1V1.79289C12 2.05811 11.8946 2.31246 11.7071 2.5L8.14645 6.06066C8.05268 6.15443 8 6.28161 8 6.41421V11.1263C8 11.5129 7.6866 11.8263 7.3 11.8263C7.1618 11.8263 7.0267 11.7854 6.91171 11.7087L4.31171 9.9754C4.11697 9.84557 4 9.62701 4 9.39296V6.41421C4 6.28161 3.94732 6.15443 3.85355 6.06066L0.292893 2.5C0.105357 2.31246 0 2.05811 0 1.79289V1C0 0.447715 0.447715 0 1 0ZM11 1H1V1.79289L4.56066 5.35355C4.84196 5.63486 5 6.01639 5 6.41421V9.232L7 10.565V6.41421C7 6.06612 7.121 5.7305 7.3397 5.46358L7.43934 5.35355L11 1.79289V1Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">funnel</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> funnel, filter, sort, pipe</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="half-screen-exit" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 7C4.51284 7 4.9354 7.38645 4.99316 7.88379L5 8V11H4V8H1V7H4ZM8 4H11V5H8C7.48716 5 7.0646 4.61355 7.00684 4.11621L7 4V1H8V4Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">half-screen-exit</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> half, screen, exit, split, view</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="half-screen" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2 10H5V11H2C1.48716 11 1.0646 10.6135 1.00684 10.1162L1 10V7H2V10ZM10 1C10.5128 1 10.9354 1.38645 10.9932 1.88379L11 2V5H10V2H7V1H10Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">half-screen</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> half, screen, split, view, layout</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="import" data-categories="actions files">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.5 0C10.2797 0 10.9204 0.594849 10.9932 1.35547L11 1.5V3H10V1.5C10 1.25454 9.82309 1.05015 9.58984 1.00781L9.5 1H1.5C1.25454 1 1.05015 1.17691 1.00781 1.41016L1 1.5V10.5C1 10.7455 1.17691 10.9499 1.41016 10.9922L1.5 11H9.5C9.74546 11 9.94985 10.8231 9.99219 10.5898L10 10.5V9H11V10.5C11 11.2797 10.4052 11.9204 9.64453 11.9932L9.5 12H1.5C0.720327 12 0.0795524 11.4052 0.00683594 10.6445L0 10.5V1.5C0 0.720327 0.594849 0.0795522 1.35547 0.00683594L1.5 0H9.5ZM7.85352 3.85352L6.20703 5.5H12V6.5H6.20703L7.85352 8.14648L7.14648 8.85352L4.82324 6.53027C4.55698 6.26401 4.53312 5.84732 4.75098 5.55371L4.82324 5.46973L7.14648 3.14648L7.85352 3.85352Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">import</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, files</div>
+                <div class="desc-item"><strong>Tags:</strong> import, input, arrow, load</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="information" data-categories="ui security">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0ZM6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1ZM6.5 9.5H5.5V5.99902L5 6V5H6.5V9.5ZM6.5 4.5H5.5V3H6.5V4.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">information</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, security</div>
+                <div class="desc-item"><strong>Tags:</strong> information, info</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="input" data-categories="actions ui">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C3.60542 12 1.47427 10.5842 0.519531 8.44629L0.424805 8.22266L1.35449 7.85156C2.10672 9.73692 3.93552 11 6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1C3.98775 1.00001 2.20072 2.19987 1.41504 4.00293L1.33105 4.20605L0.398438 3.84668C1.2825 1.54825 3.49604 1.2579e-05 6 0ZM7.67676 5.46973C7.94302 5.73599 7.96688 6.15268 7.74902 6.44629L7.67676 6.53027L5.35352 8.85352L4.64648 8.14648L6.29297 6.5H0V5.5H6.29297L4.64648 3.85352L5.35352 3.14648L7.67676 5.46973Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">input</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, ui</div>
+                <div class="desc-item"><strong>Tags:</strong> input, enter, arrow, login</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="left-open" data-categories="layout arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 11H1V10H11V11ZM10.6768 5.46973C10.943 5.73599 10.9669 6.15268 10.749 6.44629L10.6768 6.53027L8.35352 8.85352L7.64648 8.14648L9.79297 6L7.64648 3.85352L8.35352 3.14648L10.6768 5.46973ZM8 6.5H1V5.5H8V6.5ZM11 2H1V1H11V2Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">left-open</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> layout, arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> left, open, sidebar, expand, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="left-packup" data-categories="layout arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 11H1V10H11V11ZM4.35352 3.85352L2.20703 6L4.35352 8.14648L3.64648 8.85352L1.32324 6.53027C1.05698 6.26401 1.03312 5.84732 1.25098 5.55371L1.32324 5.46973L3.64648 3.14648L4.35352 3.85352ZM11 6.5H4V5.5H11V6.5ZM11 2H1V1H11V2Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">left-packup</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> layout, arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> left, packup, collapse, sidebar, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="loading" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.1" d="M6 0C6.53041 0 7.05192 0.0689581 7.55472 0.203514L7.85408 0.292092L7.54532 1.24323C7.14973 1.11482 6.73813 1.0362 6.31727 1.00989L6 1V0Z" fill="currentColor"/>
+<path opacity="0.2" d="M7.85408 0.292091C8.35466 0.454591 8.8302 0.682311 9.26944 0.968249L9.52853 1.14674L8.93987 1.95512C8.60045 1.70796 8.23161 1.50453 7.84164 1.34994L7.54532 1.24323L7.85408 0.292091Z" fill="currentColor"/>
+<path opacity="0.3" d="M9.52854 1.14674C9.95207 1.45516 10.3336 1.81764 10.6631 2.22409L10.8545 2.47316L10.0459 3.06153C9.79908 2.72233 9.51061 2.41531 9.18807 2.14802L8.93988 1.95513L9.52854 1.14674Z" fill="currentColor"/>
+<path opacity="0.4" d="M10.8545 2.47315C11.1627 2.89666 11.4142 3.35856 11.6022 3.84765L11.7074 4.14428L10.7563 4.45331C10.6266 4.05413 10.447 3.67395 10.2226 3.32101L10.0459 3.06153L10.8545 2.47315Z" fill="currentColor"/>
+<path opacity="0.5" d="M11.7074 4.14428C11.8683 4.63961 11.9642 5.15567 11.9917 5.68261L12 6H11C11 5.57455 10.947 5.15667 10.8434 4.75315L10.7563 4.45331L11.7074 4.14428Z" fill="currentColor"/>
+<path opacity="0.6" d="M12 6C12 6.52969 11.9312 7.05052 11.797 7.55269L11.7087 7.85168L10.7574 7.54333C10.8855 7.14821 10.9639 6.73714 10.9901 6.31685L11 6H12Z" fill="currentColor"/>
+<path opacity="0.7" d="M10.7574 7.54333L11.7087 7.85168C11.5463 8.3527 11.3185 8.82866 11.0325 9.26827L10.8539 9.52759L10.0454 8.93909C10.2927 8.59938 10.4962 8.23022 10.6507 7.8399L10.7574 7.54333Z" fill="currentColor"/>
+<path opacity="0.8" d="M10.0455 8.93909L10.8539 9.52759C10.5456 9.95118 10.1832 10.3328 9.7768 10.6624L9.52777 10.8538L8.93924 10.0453C9.2784 9.79845 9.58538 9.50992 9.8526 9.18731L10.0455 8.93909Z" fill="currentColor"/>
+<path opacity="0.9" d="M8.93923 10.0453L9.52776 10.8538C9.10318 11.1629 8.64002 11.4151 8.14954 11.6033L7.85206 11.7086L7.54364 10.7573C7.94397 10.6275 8.32521 10.4475 8.67908 10.2225L8.93923 10.0453Z" fill="currentColor"/>
+<path d="M7.54365 10.7573L7.85207 11.7086C7.35765 11.8689 6.84261 11.9644 6.31674 11.9918L6 12V11C6.42458 11 6.84162 10.9472 7.24437 10.8441L7.54365 10.7573Z" fill="currentColor"/>
+<path opacity="0.1" d="M4.45352 10.7564C4.84938 10.885 5.26129 10.9637 5.68247 10.9901L5.99999 11V12C5.46917 12 4.94725 11.9309 4.4441 11.7962L4.14453 11.7075L4.45352 10.7564Z" fill="currentColor"/>
+<path opacity="0.2" d="M3.0589 10.044C3.39832 10.2913 3.76717 10.4949 4.15718 10.6496L4.45353 10.7564L4.14454 11.7075C3.6439 11.5448 3.16833 11.3169 2.72909 11.0308L2.47 10.8522L3.0589 10.044Z" fill="currentColor"/>
+<path opacity="0.3" d="M1.95384 8.9381C2.20047 9.2771 2.48869 9.58396 2.81095 9.85115L3.05891 10.044L2.47001 10.8522C2.04686 10.5439 1.66564 10.1815 1.33641 9.77533L1.1452 9.52641L1.95384 8.9381Z" fill="currentColor"/>
+<path opacity="0.4" d="M1.24394 7.54749C1.37361 7.94631 1.55309 8.32616 1.77734 8.67883L1.95384 8.9381L1.1452 9.52641C0.837318 9.10322 0.585945 8.64171 0.398022 8.15305L0.292938 7.85668L1.24394 7.54749Z" fill="currentColor"/>
+<path opacity="0.5" d="M1 6C1 6.42568 1.05309 6.84378 1.15675 7.2475L1.24394 7.54749L0.292938 7.85668C0.131816 7.36111 0.0358014 6.84479 0.00827226 6.31756L0 6H1Z" fill="currentColor"/>
+<path opacity="0.6" d="M0.291097 4.14899L1.2424 4.45723C1.11442 4.85221 1.03607 5.26313 1.00985 5.68327L1 6H0C0 5.47051 0.0687197 4.94987 0.202819 4.44787L0.291097 4.14899Z" fill="currentColor"/>
+<path opacity="0.7" d="M1.14476 2.47421L1.95347 3.06241C1.70652 3.40194 1.50332 3.77085 1.34895 4.16088L1.24241 4.45723L0.291107 4.14899C0.453323 3.64836 0.68076 3.17274 0.966426 2.73338L1.14476 2.47421Z" fill="currentColor"/>
+<path opacity="0.8" d="M2.47031 1.14758L3.05916 1.95583C2.72012 2.20283 2.41329 2.49146 2.1462 2.81414L1.95346 3.06241L1.14474 2.47421C1.4529 2.05053 1.81514 1.66879 2.22137 1.33908L2.47031 1.14758Z" fill="currentColor"/>
+<path opacity="0.9" d="M4.14318 0.292976L4.4524 1.24397C4.05274 1.37392 3.67214 1.55389 3.31886 1.7788L3.05916 1.95582L2.47031 1.14758C2.89417 0.83877 3.35655 0.586681 3.8462 0.398302L4.14318 0.292976Z" fill="currentColor"/>
+<path d="M6 0V1C5.57429 1 5.15616 1.0531 4.75241 1.15677L4.45241 1.24397L4.14319 0.29298C4.63879 0.131835 5.15515 0.0358066 5.68241 0.00827346L6 0Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">loading</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> loading</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="logout" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.5 0C6.27967 0 6.92045 0.594849 6.99316 1.35547L7 1.5V4H6V1.5C6 1.25454 5.82309 1.05015 5.58984 1.00781L5.5 1H1.5C1.25454 1 1.05015 1.17691 1.00781 1.41016L1 1.5V10.5C1 10.7455 1.17691 10.9499 1.41016 10.9922L1.5 11H5.5C5.74546 11 5.94985 10.8231 5.99219 10.5898L6 10.5V8H7V10.5C7 11.2797 6.40515 11.9204 5.64453 11.9932L5.5 12H1.5C0.720327 12 0.0795524 11.4052 0.00683594 10.6445L0 10.5V1.5C0 0.720327 0.594849 0.0795522 1.35547 0.00683594L1.5 0H5.5ZM11 10.5C11 11.2797 10.4052 11.9204 9.64453 11.9932L9.5 12H8V11H9.5C9.74546 11 9.94985 10.8231 9.99219 10.5898L10 10.5V9H11V10.5ZM11.6768 5.46973C11.943 5.73599 11.9669 6.15269 11.749 6.44629L11.6768 6.53027L9.35352 8.85352L8.64648 8.14648L10.293 6.5H5V5.5H10.293L8.64648 3.85352L9.35352 3.14648L11.6768 5.46973ZM9.5 0C10.2797 0 10.9204 0.594849 10.9932 1.35547L11 1.5V3H10V1.5C10 1.25454 9.82309 1.05015 9.58984 1.00781L9.5 1H8V0H9.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">logout</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> logout, exit, signout, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="menu-list-select" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.8838 8.32031L9.69727 10.9424C9.69149 10.9485 9.68435 10.956 9.67383 10.9668C9.31338 11.3272 8.74579 11.3547 8.35352 11.0498L8.25879 10.9668L7.14648 9.85352L7.85352 9.14648L8.9668 10.2598L11.1162 7.67969L11.8838 8.32031ZM6 10H1V9H6V10ZM11 6H1V5H11V6ZM11 2H1V1H11V2Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">menu-list-select</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> menu, list, select, check, choice</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="menu-list" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 9V10H1V9H11Z" fill="currentColor"/>
+<path d="M11 5.5V6.5H1V5.5H11Z" fill="currentColor"/>
+<path d="M11 2V3H1V2H11Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">menu-list</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> menu, list, hamburger, navigation</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="more-hor" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3 5V7H1V5H3ZM7 5V7H5V5H7ZM11 7V5H9V7H11Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">more-hor</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> more, horizontal, dots, options</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="more-ver" data-categories="ui layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7 1V3H5V1H7ZM7 5V7H5V5H7ZM7 11V9H5V11H7Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">more-ver</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> more, vertical, dots, options</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="none" data-categories="ui">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0ZM6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1ZM9.35352 8.64648L8.64648 9.35352L2.64648 3.35352L3.35352 2.64648L9.35352 8.64648Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">none</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui</div>
+                <div class="desc-item"><strong>Tags:</strong> none, empty, disabled, cancel</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="output" data-categories="actions ui">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 0C7.45857 0 8.83659 0.523595 9.91504 1.45312L10.126 1.64453L9.43848 2.37012C8.51566 1.49569 7.29734 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C7.19514 11 8.32353 10.5796 9.21582 9.8291L9.40332 9.66309L10.084 10.3955C8.98177 11.42 7.5356 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0ZM11.6768 5.46973C11.943 5.73599 11.9669 6.15268 11.749 6.44629L11.6768 6.53027L9.35352 8.85352L8.64648 8.14648L10.293 6.5H5V5.5H10.293L8.64648 3.85352L9.35352 3.14648L11.6768 5.46973Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">output</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, ui</div>
+                <div class="desc-item"><strong>Tags:</strong> output, exit, leave, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="parameter-setting" data-categories="ui editor">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 1C4.65293 1 5.20703 1.41766 5.41309 2H11V3H5.41309C5.20703 3.58234 4.65293 4 4 4C3.34707 4 2.79297 3.58234 2.58691 3H1V2H2.58691C2.79297 1.41766 3.34707 1 4 1ZM4 2C3.72386 2 3.5 2.22386 3.5 2.5C3.5 2.77614 3.72386 3 4 3C4.27614 3 4.5 2.77614 4.5 2.5C4.5 2.22386 4.27614 2 4 2Z" fill="currentColor"/>
+<path d="M4 8C4.65293 8 5.20703 8.41766 5.41309 9H11V10H5.41309C5.20703 10.5823 4.65293 11 4 11C3.34707 11 2.79297 10.5823 2.58691 10H1V9H2.58691C2.79297 8.41766 3.34707 8 4 8ZM4 9C3.72386 9 3.5 9.22386 3.5 9.5C3.5 9.77614 3.72386 10 4 10C4.27614 10 4.5 9.77614 4.5 9.5C4.5 9.22386 4.27614 9 4 9Z" fill="currentColor"/>
+<path d="M8 4.5C8.65293 4.5 9.20703 4.91766 9.41309 5.5H11V6.5H9.41309C9.20703 7.08234 8.65293 7.5 8 7.5C7.34707 7.5 6.79297 7.08234 6.58691 6.5H1V5.5H6.58691C6.79297 4.91766 7.34707 4.5 8 4.5ZM8 5.5C7.72386 5.5 7.5 5.72386 7.5 6C7.5 6.27614 7.72386 6.5 8 6.5C8.27614 6.5 8.5 6.27614 8.5 6C8.5 5.72386 8.27614 5.5 8 5.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">parameter-setting</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, editor</div>
+                <div class="desc-item"><strong>Tags:</strong> parameter, setting, sliders, controls</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="paste" data-categories="actions editor">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.5 3C8.32843 3 9 3.67157 9 4.5V10.5C9 11.3284 8.32843 12 7.5 12H1.5C0.671573 12 0 11.3284 0 10.5V4.5C0 3.67157 0.671573 3 1.5 3H7.5ZM1.5 4C1.22386 4 1 4.22386 1 4.5V10.5C1 10.7761 1.22386 11 1.5 11H7.5C7.77614 11 8 10.7761 8 10.5V4.5C8 4.22386 7.77614 4 7.5 4H1.5ZM12 7.5C12 8.27967 11.4052 8.92045 10.6445 8.99316L10.5 9H10V8H10.5C10.7455 8 10.9499 7.82309 10.9922 7.58984L11 7.5V7H12V7.5ZM12 6H11V3H12V6ZM5 1H4.5C4.25454 1 4.05015 1.17691 4.00781 1.41016L4 1.5V2H3V1.5C3 0.720327 3.59485 0.0795522 4.35547 0.00683594L4.5 0H5V1ZM10.5 0C11.2797 0 11.9204 0.594849 11.9932 1.35547L12 1.5V2H11V1.5C11 1.25454 10.8231 1.05015 10.5898 1.00781L10.5 1H10V0H10.5ZM9 1H6V0H9V1Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">paste</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, editor</div>
+                <div class="desc-item"><strong>Tags:</strong> paste, clipboard, copy, insert</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="pause" data-categories="media actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 1V11H2V1H3Z" fill="currentColor"/>
+<path d="M10 1V11H9V1H10Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">pause</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> media, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> pause, stop, media, control</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="play" data-categories="media actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M2 1.7793C2 1.50421 2.07565 1.23442 2.21867 0.99943L2.29964 0.879599C2.7572 0.267625 3.61383 0.0925939 4.27987 0.497967L11.2145 4.71867C11.4194 4.84334 11.5913 5.0153 11.716 5.22013C12.1467 5.92779 11.9222 6.85062 11.2145 7.28133L4.27987 11.502C4.04488 11.6451 3.77509 11.7207 3.5 11.7207C2.67157 11.7207 2 11.0491 2 10.2207V1.7793ZM10.6946 5.57289L3.75996 1.35219C3.52407 1.20862 3.21646 1.28346 3.07289 1.51934C3.02522 1.59767 3 1.6876 3 1.7793V10.2207C3 10.4968 3.22386 10.7207 3.5 10.7207C3.5917 10.7207 3.68163 10.6955 3.75996 10.6478L10.6946 6.42711C10.9305 6.28354 11.0053 5.97593 10.8618 5.74004C10.8202 5.67177 10.7629 5.61445 10.6946 5.57289Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">play</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> media, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> play, start, media, control</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="pound" data-categories="ui">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0ZM6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1ZM8.49512 2.57031L8.29102 4H9V5H8.14844L7.8623 7H8.5V8H7.71973L7.49512 9.57031L6.50488 9.42969L6.70898 8H4.71973L4.49512 9.57031L3.50488 9.42969L3.70898 8H3V7H3.85156L4.1377 5H3.5V4H4.28027L4.50488 2.42969L5.49512 2.57031L5.29102 4H7.28027L7.50488 2.42969L8.49512 2.57031ZM4.8623 7H6.85156L7.1377 5H5.14844L4.8623 7Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">pound</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui</div>
+                <div class="desc-item"><strong>Tags:</strong> pound, hashtag, integer</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="question" data-categories="ui security">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0ZM6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1ZM6.5 9.5H5.5V8H6.5V9.5ZM6 2.5C7.07931 2.50001 7.95386 3.37484 7.9541 4.4541C7.9541 5.33729 7.36869 6.08395 6.56445 6.32617L6.5 6.3418V7.5H5.5V5.40918H6C6.52717 5.40917 6.9541 4.98128 6.9541 4.4541C6.95386 3.92713 6.52703 3.50001 6 3.5C5.51062 3.5 5.10709 3.86825 5.05176 4.34277L5.0459 4.4541H4.0459C4.04614 3.37484 4.92068 2.5 6 2.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">question</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, security</div>
+                <div class="desc-item"><strong>Tags:</strong> question, question, help</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="quote-small" data-categories="editor communication">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.5 1C7.2797 1 7.92045 1.59489 7.99313 2.35554L8 2.5V6.5C8 7.2797 7.40511 7.92045 6.64446 7.99313L6.5 8H6V7H6.5C6.74546 7 6.94961 6.82312 6.99194 6.58988L7 6.5V2.5C7 2.25454 6.82312 2.05039 6.58988 2.00806L6.5 2H2.5C2.25454 2 2.05039 2.17688 2.00806 2.41012L2 2.5V6.5C2 6.74546 2.17688 6.94961 2.41012 6.99194L2.5 7H3V8H2.5C1.7203 8 1.07955 7.40511 1.00687 6.64446L1 6.5V2.5C1 1.7203 1.59489 1.07955 2.35554 1.00687L2.5 1H6.5Z" fill="currentColor"/>
+<path d="M6 4V5H5.5C5.25454 5 5.05039 5.17688 5.00806 5.41012L5 5.5V9.5C5 9.74546 5.17688 9.94961 5.41012 9.99194L5.5 10H9.5C9.74546 10 9.94961 9.82312 9.99194 9.58988L10 9.5V5.5C10 5.25454 9.82312 5.05039 9.58988 5.00806L9.5 5H9V4H9.5C10.2797 4 10.9204 4.59489 10.9931 5.35554L11 5.5V9.5C11 10.2797 10.4051 10.9204 9.64446 10.9931L9.5 11H5.5C4.7203 11 4.07955 10.4051 4.00687 9.64446L4 9.5V5.5C4 4.7203 4.59489 4.07955 5.35554 4.00687L5.5 4H6Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">quote-small</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> editor, communication</div>
+                <div class="desc-item"><strong>Tags:</strong> quote, mark, text, citation</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="quote" data-categories="editor communication">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.5 0C8.2797 0 8.92045 0.594888 8.99313 1.35554L9 1.5V7.5C9 8.2797 8.40511 8.92045 7.64446 8.99313L7.5 9H5V8H7.5C7.74546 8 7.94961 7.82312 7.99194 7.58988L8 7.5V1.5C8 1.25454 7.82312 1.05039 7.58988 1.00806L7.5 1H1.5C1.25454 1 1.05039 1.17688 1.00806 1.41012L1 1.5V7.5C1 7.74546 1.17688 7.94961 1.41012 7.99194L1.5 8H2V9H1.5C0.720304 9 0.0795513 8.40511 0.00686658 7.64446L0 7.5V1.5C0 0.720304 0.594888 0.0795513 1.35554 0.00686658L1.5 0H7.5Z" fill="currentColor"/>
+<path d="M7 3V4H4.5C4.25454 4 4.05039 4.17688 4.00806 4.41012L4 4.5V10.5C4 10.7455 4.17688 10.9496 4.41012 10.9919L4.5 11H10.5C10.7455 11 10.9496 10.8231 10.9919 10.5899L11 10.5V4.5C11 4.25454 10.8231 4.05039 10.5899 4.00806L10.5 4H10V3H10.5C11.2797 3 11.9204 3.59489 11.9931 4.35554L12 4.5V10.5C12 11.2797 11.4051 11.9204 10.6445 11.9931L10.5 12H4.5C3.7203 12 3.07955 11.4051 3.00687 10.6445L3 10.5V4.5C3 3.7203 3.59489 3.07955 4.35554 3.00687L4.5 3H7Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">quote</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> editor, communication</div>
+                <div class="desc-item"><strong>Tags:</strong> quote, mark, text, citation</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="refresh" data-categories="actions arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6 1V0H1V1H2.682L2.55883 1.08426C1.01152 2.16943 0 3.96659 0 6C0 8.50064 1.54404 10.7121 3.838 11.5985L4.19844 10.6657L3.99604 10.5824C2.19653 9.79512 1 8.0096 1 6C1 3.23858 3.23858 1 6 1ZM12 6C12 3.52058 10.482 1.32401 8.21668 0.422909L7.84707 1.3521L8.05424 1.43994C9.82692 2.23897 11 4.01017 11 6C11 8.68876 8.87769 10.8818 6.21689 10.9954L6 11V12H11V11L9.317 10.999L9.44117 10.9157C10.9885 9.83057 12 8.03341 12 6Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">refresh</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> refresh, reload, sync, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="release" data-categories="actions communication">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.3612 0.130098C11.7373 0.181452 12.0003 0.528374 11.949 0.904512L10.535 11.2785C10.5217 11.376 10.4869 11.4698 10.4344 11.5529C10.2316 11.8738 9.80709 11.9695 9.48615 11.7668L6.68928 10.0002H2.95295C2.57333 10.0002 2.26557 9.69231 2.26545 9.31271C2.26545 9.16692 2.31184 9.02597 2.39631 8.90939L2.46662 8.82639L3.38166 7.91037L0.526193 6.10764C0.413195 6.03611 0.322786 5.93348 0.267404 5.81174C0.110402 5.46613 0.26363 5.05772 0.609201 4.90061L10.9832 0.185762C11.1012 0.132118 11.2327 0.112609 11.3612 0.130098ZM4.97248 7.73264L6.97932 9.00021H6.99983V9.01291L9.6092 10.6613L10.8026 1.90354L4.97248 7.73264ZM3.70588 9.00021H5.10627L4.24787 8.45822L3.70588 9.00021ZM1.54963 5.57053L4.10627 7.18576L9.19807 2.09396L1.54963 5.57053Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">release</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, communication</div>
+                <div class="desc-item"><strong>Tags:</strong> release, publish, send, paper, plane</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="save" data-categories="actions files">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.58594 0C7.98371 4.00259e-05 8.36522 0.158184 8.64648 0.439453L11.5605 3.35352C11.8418 3.63478 12 4.01629 12 4.41406V10.5C12 11.3284 11.3284 12 10.5 12H1.5C0.671573 12 0 11.3284 0 10.5V1.5C0 0.671573 0.671573 0 1.5 0H7.58594ZM1.5 1C1.22386 1 1 1.22386 1 1.5V10.5C1 10.7761 1.22386 11 1.5 11H10.5C10.7761 11 11 10.7761 11 10.5V4.41406C11 4.28151 10.9472 4.15428 10.8535 4.06055L7.93945 1.14648C7.84572 1.05275 7.71849 1.00004 7.58594 1H1.5Z" fill="currentColor"/>
+<path d="M8 7C8.51284 7 8.93551 7.38604 8.99327 7.88338L9 8V11.5H8V8H4V11.5H3V8C3 7.48716 3.38604 7.06449 3.88338 7.00673L4 7H8Z" fill="currentColor"/>
+<path d="M4 3V5H3V3H4Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">save</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, files</div>
+                <div class="desc-item"><strong>Tags:</strong> save, disk, floppy, store</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="search" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 0C7.76142 0 10 2.23858 10 5C10 6.20064 9.57644 7.30213 8.87109 8.16406L11.8535 11.1465L11.1465 11.8535L8.16406 8.87109C7.30213 9.57644 6.20064 10 5 10C2.23858 10 0 7.76142 0 5C0 2.23858 2.23858 0 5 0ZM5 1C2.79086 1 1 2.79086 1 5C1 7.20914 2.79086 9 5 9C7.20914 9 9 7.20914 9 5C9 2.79086 7.20914 1 5 1Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">search</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> search, find, magnify, glass</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="shutdown" data-categories="ui devices">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.27344 1.80762C1.86596 2.72517 1 4.28866 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6C11 4.37146 10.2157 2.87684 8.92676 1.94531L8.72949 1.81055L9.27637 0.972656C10.9619 2.07332 12 3.94873 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C3.08512e-07 4.03274 0.954727 2.22771 2.51953 1.1123L2.72754 0.970703L3.27344 1.80762ZM6.5 6H5.5V0H6.5V6Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">shutdown</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, devices</div>
+                <div class="desc-item"><strong>Tags:</strong> shutdown, power, off, turn, off</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sign-cross" data-categories="ui security actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.1465 1.14645L10.8536 1.85355L6.70701 6L10.8536 10.1464L10.1465 10.8536L6.00001 6.707L1.85356 10.8536L1.14645 10.1464L5.29301 6L1.14645 1.85355L1.85356 1.14645L6.00001 5.293L10.1465 1.14645Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sign-cross</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, security, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> sign, cross, fail, close, error</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sign-equal" data-categories="editor shapes">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11 5V4H1V5H11ZM11 8V7H1V8H11Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sign-equal</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> editor, shapes</div>
+                <div class="desc-item"><strong>Tags:</strong> sign, equal, math, calculate</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sign-exclamatory" data-categories="ui security">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.5 11H5.5V9.5H6.5V11ZM6.5 8H5.5V1H6.5V8Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sign-exclamatory</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, security</div>
+                <div class="desc-item"><strong>Tags:</strong> sign, exclamatory, 感叹号, warning, error, alert</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sign-minus" data-categories="editor shapes">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 5.5V6.5H1V5.5H11Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sign-minus</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> editor, shapes</div>
+                <div class="desc-item"><strong>Tags:</strong> sign, minus, subtract, remove</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sign-plus" data-categories="editor shapes">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.5 5.5H11V6.5H6.5V11H5.5V6.5H1V5.5H5.5V1H6.5V5.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sign-plus</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> editor, shapes</div>
+                <div class="desc-item"><strong>Tags:</strong> sign, plus, add, create</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sign-pound" data-categories="ui">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.99414 1.07422L8.70508 3H10.5V4H8.55566L7.95508 8H10V9H7.80566L7.49414 11.0742L6.50586 10.9258L6.79492 9H3.80566L3.49414 11.0742L2.50586 10.9258L2.79492 9H1V8H2.94434L3.54492 4H1.5V3H3.69434L4.00586 0.925781L4.99414 1.07422L4.70508 3H7.69434L8.00586 0.925781L8.99414 1.07422ZM3.95508 8H6.94434L7.54492 4H4.55566L3.95508 8Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sign-pound</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui</div>
+                <div class="desc-item"><strong>Tags:</strong> sign, pound, hashtag, tag</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sign-tick" data-categories="ui security actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.1465 2.14645L11.8536 2.85355L5.56067 9.14645C5.01149 9.69562 4.14243 9.72994 3.55327 9.24942L3.43935 9.14645L0.146454 5.85355L0.853561 5.14645L4.14645 8.43934C4.32002 8.61291 4.58944 8.63219 4.78431 8.49719L4.85356 8.43934L11.1465 2.14645Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sign-tick</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, security, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> sign, tick, success, check, complete</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="signin" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.5 0C6.27967 0 6.92045 0.594849 6.99316 1.35547L7 1.5V2H6V1.5C6 1.25454 5.82309 1.05015 5.58984 1.00781L5.5 1H1.5C1.25454 1 1.05015 1.17691 1.00781 1.41016L1 1.5V10.5C1 10.7455 1.17691 10.9499 1.41016 10.9922L1.5 11H5.5C5.74546 11 5.94985 10.8231 5.99219 10.5898L6 10.5V10H7V10.5C7 11.2797 6.40515 11.9204 5.64453 11.9932L5.5 12H1.5C0.720327 12 0.0795524 11.4052 0.00683594 10.6445L0 10.5V1.5C0 0.720327 0.594849 0.0795522 1.35547 0.00683594L1.5 0H5.5ZM11 10.5C11 11.2797 10.4052 11.9204 9.64453 11.9932L9.5 12H8V11H9.5C9.74546 11 9.94985 10.8231 9.99219 10.5898L10 10.5V8H11V10.5ZM7.85352 3.85352L6.20703 5.5H11V6.5H6.20703L7.85352 8.14648L7.14648 8.85352L4.82324 6.53027C4.55699 6.26401 4.53313 5.84732 4.75098 5.55371L4.82324 5.46973L7.14648 3.14648L7.85352 3.85352ZM9.5 0C10.2797 0 10.9204 0.594849 10.9932 1.35547L11 1.5V4H10V1.5C10 1.25454 9.82309 1.05015 9.58984 1.00781L9.5 1H8V0H9.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">signin</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> signin, login, enter, user, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sort-drag" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5 1V3H3V1H5ZM5 5V7H3V5H5ZM5 11V9H3V11H5Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9 1V3H7V1H9ZM9 5V7H7V5H9ZM9 11V9H7V11H9Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sort-drag</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> sort, drag, move, handle, grip</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sort-filter-down" data-categories="arrows layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7 2V3H1V2H7Z" fill="currentColor"/>
+<path d="M6 9V10H1V9H6Z" fill="currentColor"/>
+<path d="M7 5.5V6.5H1V5.5H7Z" fill="currentColor"/>
+<path d="M10 10.293L11.1465 9.14648L11.8535 9.85352L9.94238 11.7656C9.72547 11.9825 9.3881 12.0065 9.14453 11.8379L9.05762 11.7656L7.14648 9.85352L7.85352 9.14648L9 10.293V1H10V10.293Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sort-filter-down</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> sort, filter, down, descending, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sort-filter-up" data-categories="arrows layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 2V3H1V2H6Z" fill="currentColor"/>
+<path d="M7 9V10H1V9H7Z" fill="currentColor"/>
+<path d="M7 5.5V6.5H1V5.5H7Z" fill="currentColor"/>
+<path d="M9.05762 0.234998C9.27458 0.0180399 9.61188 -0.00601284 9.85547 0.162732L9.94238 0.234998L11.8535 2.14613L11.1465 2.85316L10 1.70668V10.9996H9V1.70668L7.85352 2.85316L7.14648 2.14613L9.05762 0.234998Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sort-filter-up</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> sort, filter, up, ascending, arrow</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sort-inverted-order" data-categories="layout arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.2" d="M8.64645 7.64645L9.35355 8.35355L6.70711 11C6.34662 11.3605 5.77939 11.3882 5.3871 11.0832L5.29289 11L2.64645 8.35355L3.35355 7.64645L6 10.2929L8.64645 7.64645Z" fill="currentColor"/>
+<path d="M5.29289 1C5.65338 0.639517 6.22061 0.611787 6.6129 0.916812L6.70711 1L9.35355 3.64645L8.64645 4.35355L6 1.70711L3.35355 4.35355L2.64645 3.64645L5.29289 1Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sort-inverted-order</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> layout, arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> sort, order, inverted, descending</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sort-order" data-categories="layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.64645 7.64645L9.35355 8.35355L6.70711 11C6.34662 11.3605 5.77939 11.3882 5.3871 11.0832L5.29289 11L2.64645 8.35355L3.35355 7.64645L6 10.2929L8.64645 7.64645Z" fill="currentColor"/>
+<path opacity="0.2" d="M5.29289 1C5.65338 0.639517 6.22061 0.611787 6.6129 0.916812L6.70711 1L9.35355 3.64645L8.64645 4.35355L6 1.70711L3.35355 4.35355L2.64645 3.64645L5.29289 1Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sort-order</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> layout</div>
+                <div class="desc-item"><strong>Tags:</strong> sort, order, ascending, list</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="sort" data-categories="arrows layout">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.64645 7.64645L9.35355 8.35355L6.70711 11C6.34662 11.3605 5.77939 11.3882 5.3871 11.0832L5.29289 11L2.64645 8.35355L3.35355 7.64645L6 10.2929L8.64645 7.64645Z" fill="currentColor"/>
+<path d="M5.29289 1C5.65338 0.639517 6.22061 0.611787 6.6129 0.916812L6.70711 1L9.35355 3.64645L8.64645 4.35355L6 1.70711L3.35355 4.35355L2.64645 3.64645L5.29289 1Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">sort</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows, layout</div>
+                <div class="desc-item"><strong>Tags:</strong> arrow, direction, sort, order</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="stop" data-categories="media actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M2.5 1H9.5C10.3284 1 11 1.67157 11 2.5V9.5C11 10.3284 10.3284 11 9.5 11H2.5C1.67157 11 1 10.3284 1 9.5V2.5C1 1.67157 1.67157 1 2.5 1ZM9.5 2H2.5C2.22386 2 2 2.22386 2 2.5V9.5C2 9.77614 2.22386 10 2.5 10H9.5C9.77614 10 10 9.77614 10 9.5V2.5C10 2.22386 9.77614 2 9.5 2Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">stop</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> media, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> stop, halt, media, square</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="tick-unselected" data-categories="ui">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6ZM11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">tick-unselected</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui</div>
+                <div class="desc-item"><strong>Tags:</strong> tick, unselected, unchecked</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="tick" data-categories="ui security actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 0C9.31371 0 12 2.68629 12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0ZM6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1ZM9.38379 4.88379L6.2373 8.03027C5.87682 8.39072 5.30927 8.41829 4.91699 8.11328L4.82324 8.03027L3.17676 6.38379L3.88379 5.67676L5.53027 7.32324L8.67676 4.17676L9.38379 4.88379Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">tick</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, security, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> tick, success, check, complete</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="towards-down" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.5 9.79297L9.14648 7.14648L9.85352 7.85352L6.70703 11C6.34655 11.3604 5.77899 11.388 5.38672 11.083L5.29297 11L2.14648 7.85352L2.85352 7.14648L5.5 9.79297V1H6.5V9.79297Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">towards-down</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> towards, down, direction</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="towards-left" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.85354 2.85352L2.20705 5.5H11V6.5H2.20705L4.85354 9.14648L4.14651 9.85352L1.00002 6.70703C0.639537 6.34655 0.611988 5.77901 0.917013 5.38672L1.00002 5.29297L4.14651 2.14648L4.85354 2.85352Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">towards-left</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> towards, left, direction</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="towards-right" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 5.29297C11.3605 5.65345 11.388 6.221 11.083 6.61328L11 6.70703L7.85352 9.85352L7.14648 9.14648L9.79297 6.5H1V5.5H9.79297L7.14648 2.85352L7.85352 2.14648L11 5.29297Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">towards-right</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> towards, right, direction</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="towards-up" data-categories="arrows">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.29297 1.00001C5.65345 0.63953 6.22099 0.611981 6.61328 0.917006L6.70703 1.00001L9.85352 4.1465L9.14648 4.85353L6.5 2.20704V11H5.5V2.20704L2.85352 4.85353L2.14648 4.1465L5.29297 1.00001Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">towards-up</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> arrows</div>
+                <div class="desc-item"><strong>Tags:</strong> towards, up, direction</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="upload" data-categories="actions files">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.55859 1.73535C5.80267 1.49129 6.19831 1.49128 6.44238 1.73535L10.6406 5.93359C10.7574 6.05066 10.8231 6.20963 10.8232 6.375C10.823 6.71984 10.5431 6.99976 10.1982 7H9V11C8.99979 11.5125 8.61416 11.9362 8.11719 11.9941L8 12H4C3.44805 11.9998 3.00023 11.552 3 11V7H1.80176C1.66966 6.99991 1.54128 6.95823 1.43555 6.88184L1.36035 6.81738C1.11628 6.57331 1.11628 6.17767 1.36035 5.93359L5.55859 1.73535ZM2.70605 6H3.375C3.6886 6.00021 3.94854 6.23196 3.99316 6.5332L4 6.625V11H8V6.625C8.00023 6.28015 8.28015 6.00023 8.625 6H9.29297L6 2.70703L2.70605 6ZM10 0C10.5128 0 10.9354 0.38645 10.9932 0.883789L11 1V2H10V1H2V2H1V1C1 0.487164 1.38645 0.064601 1.88379 0.00683594L2 0H10Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">upload</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> actions, files</div>
+                <div class="desc-item"><strong>Tags:</strong> upload, cloud, arrow, up</div>
+            </div>
+        </div>
+    
+        <div class="icon-card" data-name="use" data-categories="ui actions">
+            <div class="icon-wrapper">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2 9.5C2 9.74546 2.17691 9.94985 2.41016 9.99219L2.5 10H4V11H2.5C1.72033 11 1.07955 10.4052 1.00684 9.64453L1 9.5V8H2V9.5ZM11 9.5C11 10.2797 10.4052 10.9204 9.64453 10.9932L9.5 11H8V10H9.5C9.74546 10 9.94985 9.82309 9.99219 9.58984L10 9.5V8H11V9.5ZM9.35352 4.35352L5.70703 8C5.34654 8.36043 4.77899 8.38802 4.38672 8.08301L4.29297 8L2.64648 6.35352L3.35352 5.64648L5 7.29297L8.64648 3.64648L9.35352 4.35352ZM4 2H2.5C2.25454 2 2.05015 2.17691 2.00781 2.41016L2 2.5V4H1V2.5C1 1.72033 1.59485 1.07955 2.35547 1.00684L2.5 1H4V2ZM9.5 1C10.2797 1 10.9204 1.59485 10.9932 2.35547L11 2.5V4H10V2.5C10 2.25454 9.82309 2.05015 9.58984 2.00781L9.5 2H8V1H9.5Z" fill="currentColor"/>
+</svg>
+
+            </div>
+            <span class="icon-name">use</span>
+            <div class="icon-desc">
+                <div class="desc-item"><strong>Category:</strong> ui, actions</div>
+                <div class="desc-item"><strong>Tags:</strong> use, check, tick, apply, success</div>
+            </div>
+        </div>
+    
+        </div>
+        
+        <div class="empty-state" id="empty-state">
+            <p>未找到图标。</p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">已复制到剪贴板！</div>
+
+    <script>
+        const state = {
+            search: '',
+            category: 'all',
+            color: '#666666',
+            strokeWidth: 2,
+            size: 24,
+            showDesc: false
+        };
+
+        const elements = {
+            searchInput: document.getElementById('search-input'),
+            iconGrid: document.getElementById('icon-grid'),
+            cards: document.querySelectorAll('.icon-card'),
+            emptyState: document.getElementById('empty-state'),
+            toast: document.getElementById('toast'),
+            
+            // Controls
+            colorInput: document.getElementById('color-input'),
+            strokeInput: document.getElementById('stroke-input'),
+            sizeInput: document.getElementById('size-input'),
+            resetBtn: document.getElementById('reset-btn'),
+            descToggle: document.getElementById('desc-toggle'),
+            
+            // Value displays
+            colorValue: document.getElementById('color-value'),
+            strokeValue: document.getElementById('stroke-value'),
+            sizeValue: document.getElementById('size-value'),
+            
+            // Categories
+            categoryItems: document.querySelectorAll('.category-item')
+        };
+
+        // Filter Logic
+        function filterIcons() {
+            let visibleCount = 0;
+            const searchTerm = state.search.toLowerCase();
+            
+            elements.cards.forEach(card => {
+                const name = card.dataset.name;
+                const categories = card.dataset.categories.split(' ');
+                
+                const matchesSearch = name.includes(searchTerm);
+                const matchesCategory = state.category === 'all' || categories.includes(state.category);
+                
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            elements.emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // Appearance Logic
+        function updateAppearance() {
+            document.documentElement.style.setProperty('--icon-default-color', state.color);
+            
+            elements.cards.forEach(card => {
+                const svg = card.querySelector('svg');
+                if (svg) {
+                    // Update stroke width
+                    svg.setAttribute('stroke-width', state.strokeWidth);
+                    
+                    // Update size
+                    svg.setAttribute('width', state.size);
+                    svg.setAttribute('height', state.size);
+                    
+                    // Update color
+                    svg.style.color = state.color;
+                }
+            });
+
+            // Update displays
+            elements.strokeValue.textContent = state.strokeWidth + 'px';
+            elements.sizeValue.textContent = state.size + 'px';
+            elements.colorValue.textContent = state.color;
+        }
+
+        // Event Listeners
+        elements.searchInput.addEventListener('input', (e) => {
+            state.search = e.target.value;
+            filterIcons();
+        });
+
+        elements.categoryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                elements.categoryItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                state.category = item.dataset.category;
+                filterIcons();
+            });
+        });
+
+        elements.colorInput.addEventListener('input', (e) => {
+            state.color = e.target.value;
+            updateAppearance();
+        });
+
+        elements.strokeInput.addEventListener('input', (e) => {
+            state.strokeWidth = e.target.value;
+            updateAppearance();
+        });
+
+        elements.sizeInput.addEventListener('input', (e) => {
+            state.size = e.target.value;
+            updateAppearance();
+        });
+        
+        elements.descToggle.addEventListener('change', (e) => {
+            state.showDesc = e.target.checked;
+            if (state.showDesc) {
+                document.body.classList.add('show-description');
+            } else {
+                document.body.classList.remove('show-description');
+            }
+        });
+
+        elements.resetBtn.addEventListener('click', () => {
+            state.color = '#666666';
+            state.strokeWidth = 2;
+            state.size = 24;
+            state.showDesc = false;
+            
+            elements.colorInput.value = '#666666';
+            elements.strokeInput.value = 2;
+            elements.sizeInput.value = 24;
+            elements.descToggle.checked = false;
+            
+            document.body.classList.remove('show-description');
+            updateAppearance();
+        });
+
+        // Copy to clipboard
+        elements.cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const name = card.dataset.name;
+                navigator.clipboard.writeText(name).then(() => {
+                    elements.toast.textContent = `已复制 "${name}"`;
+                    elements.toast.classList.add('show');
+                    setTimeout(() => elements.toast.classList.remove('show'), 2000);
+                });
+            });
+        });
+
+        // Init
+        updateAppearance();
+    </script>
+</body>
+</html>

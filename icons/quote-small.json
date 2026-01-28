@@ -1,0 +1,6 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": ["Tubiao Bot"],
+  "tags": ["quote", "mark", "text", "citation"],
+  "categories": ["editor", "communication"]
+}

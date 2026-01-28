@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "Tubiao Bot"
+  ],
+  "tags": [
+    "question",
+    "question",
+    "help"
+  ],
+  "categories": [
+    "ui",
+    "security"
+  ]
+}

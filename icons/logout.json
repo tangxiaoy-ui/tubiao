@@ -1,0 +1,6 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": ["Tubiao Bot"],
+  "tags": ["logout", "exit", "signout", "arrow"],
+  "categories": ["ui", "actions"]
+}

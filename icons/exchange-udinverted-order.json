@@ -1,0 +1,6 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": ["Tubiao Bot"],
+  "tags": ["exchange", "swap", "order", "inverted"],
+  "categories": ["arrows", "actions"]
+}

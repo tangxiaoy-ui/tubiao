@@ -1,0 +1,6 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": ["Tubiao Bot"],
+  "tags": ["sort", "order", "ascending", "list"],
+  "categories": ["layout"]
+}

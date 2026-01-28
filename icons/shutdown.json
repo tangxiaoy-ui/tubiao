@@ -1,0 +1,6 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": ["Tubiao Bot"],
+  "tags": ["shutdown", "power", "off", "turn", "off"],
+  "categories": ["ui", "devices"]
+}

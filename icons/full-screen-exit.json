@@ -1,0 +1,6 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": ["Tubiao Bot"],
+  "tags": ["fullscreen", "exit", "minimize", "shrink"],
+  "categories": ["ui", "layout"]
+}
